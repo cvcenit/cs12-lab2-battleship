@@ -1,4 +1,5 @@
-from battleship import BattleshipController, BattleshipView
+# pyright: strict
+
 from model import BattleshipModel
 from random import Random, seed
 import pytest

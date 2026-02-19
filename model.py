@@ -346,10 +346,12 @@ class BattleshipModel:
 
     def get_random_move(self) -> int:
         current_player = self._players[self.turn]
-        if current_player.can_move_ship():
+        if current_player.can_move_ship() and current_player.are_there_ships_remaining():
             choices = (1, 3)
-        else:
+        elif current_player.are_there_ships_remaining():
             choices = (1,)
+        else:
+            return 0
         return self.rng.choice(choices)
 
     def get_random_direction(self, directions_to_choose: tuple[()] | tuple[int] | tuple[int, int]) -> int:

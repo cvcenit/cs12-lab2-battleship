@@ -175,6 +175,10 @@ class BattleshipController:
         model = self._model
         view = self._view
 
+        game_n: int = view.ask_for_n()
+        game_k: int = view.ask_for_k(game_n)
+        model = BattleshipModel(game_n, model.ship_sizes, model.rng, game_k)
+
         while not model.is_game_over():
             current_player = model.players()[model.turn]
             if model.turn == 0:
@@ -211,6 +215,8 @@ class BattleshipController:
                 if move == 1:
                     view.show_target(model.turn, target)
                     view.show_shot(i, j)
+                elif move == 0:
+                    pass
                 else:
                     view.say_ship_moved(model.turn)
 
@@ -221,6 +227,8 @@ class BattleshipController:
                     model.square_scan(i, j, target)
                 case 3:
                     model.move_ship(i, j, direction)
+                case 0:
+                    pass
                 case _:
                     raise ValueError
 
@@ -231,8 +239,6 @@ class BattleshipController:
 
 if __name__ == "__main__":
     game_view = BattleshipView()
-    game_n = game_view.ask_for_n()
-    game_k = game_view.ask_for_k(game_n)
-    game_model = BattleshipModel(game_n, (4, 3, 2, 2), Random(seed()), game_k)
+    game_model = BattleshipModel(6, (4, 3, 2, 2), Random(seed()), 6)
     game = BattleshipController(game_model, game_view)
     game.run()
