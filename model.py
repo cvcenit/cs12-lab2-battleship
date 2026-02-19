@@ -377,6 +377,7 @@ class BattleshipModel:
     def shoot(self, i: int, j: int):
         # checks if the game is already won or lost
         assert not self.is_game_over()
+        assert self.players()[self.turn].are_there_ships_remaining()
 
         player_to_shoot = self._players[self.target]
         if player_to_shoot.ship_was_in(i, j):

@@ -729,6 +729,23 @@ def test_shooting_player_wins():
     assert game_one.grids()[game_one.target] == ['.???', '????', '?b??', '?a??']
     assert not game_one.players()[game_one.target].are_there_ships_remaining()
     assert not game_one.is_game_over()
+    # we let Bot 1 get its random move, but it will yield 0 since it has no more ships
+    game_one.go_to_next_turn()
+    assert game_one.get_random_move() == 0
+    # since bot 1 already 'lost', they cannot shoot anymore
+    # currently, bot 1 is the one shooting the current target (bot 1 as well)
+    assert game_one.target == 1
+    assert not game_one.players()[game_one.turn].are_there_ships_remaining()
+    with pytest.raises(AssertionError):
+        game_one.shoot(1, 1)
+
+    # go back to player turn
+    game_one.go_to_next_turn()
+    game_one.go_to_next_turn()
+    game_one.go_to_next_turn()
+    game_one.go_to_next_turn()
+    assert game_one.turn == 0
+
 
     # shoots all of Bot 2 ships
     game_one.target = 2
